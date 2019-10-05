@@ -73,7 +73,8 @@ RUN \
   xfce4-terminal \
   firefox \
 # wine (stable version)
-  winehq-stable
+  winehq-stable \
+  winetricks
 
 # ###############################################################################
 # # SYSTEM SETTINGS & CONFIG
@@ -97,12 +98,13 @@ RUN \
 # env WINEDEBUG=trace+all wine foo.exe
 # and watch the logs
 RUN \
-    mkdir -p /opt/wine-stable/share/wine/mono && \
-    wget http://dl.winehq.org/wine/wine-mono/4.7.5/wine-mono-4.7.5.msi -O /opt/wine-stable/share/wine/mono/wine-mono-4.7.5.msi
+  mkdir -p /opt/wine-stable/share/wine/mono && \
+  wget http://dl.winehq.org/wine/wine-mono/4.7.5/wine-mono-4.7.5.msi -O /opt/wine-stable/share/wine/mono/wine-mono-4.7.5.msi
 RUN \
-    mkdir -p /opt/wine-stable/share/wine/gecko && \
-    wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86.msi && \
-    wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86_64.msi
+  mkdir -p /opt/wine-stable/share/wine/gecko && \
+  wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86.msi && \
+  wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86_64.msi
+
 
 # ###############################################################################
 # # HAMRADIOTRAINER
