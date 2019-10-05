@@ -26,6 +26,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # suppress all wine console logs
 # you can set this to 'trace+all' to get all trace information
 ENV WINEDEBUG=-all
+ENV WINEPREFIX=/home/user/.wine
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
