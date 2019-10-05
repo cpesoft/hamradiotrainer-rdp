@@ -106,6 +106,12 @@ RUN \
   wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86.msi && \
   wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86_64.msi
 
+# install fonts and enable font smoothing
+USER user
+RUN \
+  winetricks corefonts && \
+  winetricks tahoma && \
+  winetricks fontsmooth=rgb
 
 # ###############################################################################
 # # HAMRADIOTRAINER
@@ -122,6 +128,7 @@ RUN \
 # # CONFIGURE PHUSION/BASEIMAGE SETTINGS
 # ###############################################################################
 
+USER root
 # integrate xrdp/xrdp-sesman in init system
 RUN \
   mkdir -p /etc/service/xrdp && \
