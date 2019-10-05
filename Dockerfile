@@ -26,6 +26,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # suppress all wine console logs
 # you can set this to 'trace+all' to get all trace information
 ENV WINEDEBUG=-all
+ENV WINEPREFIX=/home/user/.wine
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
@@ -73,7 +74,8 @@ RUN \
   xfce4-terminal \
   firefox \
 # wine (stable version)
-  winehq-stable
+  winehq-stable \
+  winetricks
 
 # ###############################################################################
 # # SYSTEM SETTINGS & CONFIG
@@ -97,12 +99,19 @@ RUN \
 # env WINEDEBUG=trace+all wine foo.exe
 # and watch the logs
 RUN \
-    mkdir -p /opt/wine-stable/share/wine/mono && \
-    wget http://dl.winehq.org/wine/wine-mono/4.7.5/wine-mono-4.7.5.msi -O /opt/wine-stable/share/wine/mono/wine-mono-4.7.5.msi
+  mkdir -p /opt/wine-stable/share/wine/mono && \
+  wget http://dl.winehq.org/wine/wine-mono/4.7.5/wine-mono-4.7.5.msi -O /opt/wine-stable/share/wine/mono/wine-mono-4.7.5.msi
 RUN \
-    mkdir -p /opt/wine-stable/share/wine/gecko && \
-    wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86.msi && \
-    wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86_64.msi
+  mkdir -p /opt/wine-stable/share/wine/gecko && \
+  wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86.msi && \
+  wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86_64.msi
+
+# install fonts and enable font smoothing
+USER user
+RUN \
+  winetricks corefonts && \
+  winetricks tahoma && \
+  winetricks fontsmooth=rgb
 
 # ###############################################################################
 # # HAMRADIOTRAINER
@@ -119,6 +128,7 @@ RUN \
 # # CONFIGURE PHUSION/BASEIMAGE SETTINGS
 # ###############################################################################
 
+USER root
 # integrate xrdp/xrdp-sesman in init system
 RUN \
   mkdir -p /etc/service/xrdp && \
