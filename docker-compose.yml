@@ -1,0 +1,12 @@
+version: '2'
+services:
+  hamradiotrainer:
+    build: .
+    image: cpesoft/hamradiotrainer-rdp
+    container_name: hamradiotrainer
+    hostname: hamradiotrainer
+    restart: always
+    ports:
+      - "3389:3389"
+    volumes:
+      - ./data:/home/user/HamRadioTrainer/user
