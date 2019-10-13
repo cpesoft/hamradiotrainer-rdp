@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Name=Hamradio Trainer
+Comment=Hamradio Trainer
+Exec=/usr/bin/wine /home/user/HamRadioTrainer/start-hamradiotrainer.exe
+Icon=/home/user/HamRadioTrainer/data/hamradiotrainer-600wk.png
+Terminal=false
+StartupWMClass=wine
+Type=Application
+Categories=Education;
+X-Desktop-File-Install-Version=0.22
