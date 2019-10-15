@@ -13,7 +13,7 @@ ENV LANG       de_DE.UTF-8
 ENV LANGUAGE   de_DE.UTF-8
 ENV LC_ALL     de_DE.UTF-8
 
-# Set timezone
+# Set timezone in env
 ENV TZ Europe/Berlin
 
 # set HOME
@@ -81,6 +81,11 @@ RUN \
 # ###############################################################################
 # # SYSTEM SETTINGS & CONFIG
 # ###############################################################################
+
+# set localtime/timezone
+RUN \
+  ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && \
+  dpkg-reconfigure -f noninteractive tzdata
 
 # Create user and group for rdp
 RUN \
