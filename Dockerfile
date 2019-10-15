@@ -67,6 +67,7 @@ RUN \
   sudo \
   python-minimal \
   p7zip-full \
+  tzdata \
 # GUI and desktop environment
   xorgxrdp \
   xrdp \
