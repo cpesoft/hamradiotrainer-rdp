@@ -73,6 +73,7 @@ RUN \
   openbox \
   xfce4-terminal \
   firefox \
+  tint2 \
 # wine (stable version)
   winehq-stable \
   winetricks
@@ -86,7 +87,23 @@ RUN \
   groupadd tsusers && \
   useradd --create-home --groups tsusers,sudo --shell /bin/bash user && \
   echo user:user | chpasswd && \
-  echo 'openbox-session' > /home/user/.xsession
+# run commands as 'user'
+  su -l user --command ' \
+    mkdir -p ~/.config/openbox && \
+    mkdir -p ~/.config/tint2 && \
+    mkdir -p ~/.local/share/applications && \
+    echo 'openbox-session' > ~/.xsession'
+
+USER user
+COPY \
+  build/tint2rc /home/user/.config/tint2/tint2rc
+COPY \
+  build/autostart /home/user/.config/openbox/autostart
+COPY \
+  build/hamradiotrainer.desktop /home/user/.local/share/applications/hamradiotrainer.desktop
+
+# switch back to root user
+USER root
 
 # ###############################################################################
 # # WINE SEETINGS & CONFIG
@@ -107,11 +124,11 @@ RUN \
   wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86_64.msi
 
 # install fonts and enable font smoothing
-USER user
 RUN \
+  su -l user --command ' \
+  winetricks fontsmooth=rgb && \
   winetricks corefonts && \
-  winetricks tahoma && \
-  winetricks fontsmooth=rgb
+  winetricks tahoma'
 
 # ###############################################################################
 # # HAMRADIOTRAINER
@@ -128,7 +145,6 @@ RUN \
 # # CONFIGURE PHUSION/BASEIMAGE SETTINGS
 # ###############################################################################
 
-USER root
 # integrate xrdp/xrdp-sesman in init system
 RUN \
   mkdir -p /etc/service/xrdp && \
