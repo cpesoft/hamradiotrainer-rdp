@@ -128,11 +128,11 @@ USER root
 # and watch the logs
 RUN \
   mkdir -p /opt/wine-stable/share/wine/mono && \
-  wget http://dl.winehq.org/wine/wine-mono/4.7.5/wine-mono-4.7.5.msi -O /opt/wine-stable/share/wine/mono/wine-mono-4.7.5.msi
+  wget http://dl.winehq.org/wine/wine-mono/4.9.4/wine-mono-4.9.4.msi -O /opt/wine-stable/share/wine/mono/wine-mono-4.9.4.msi
 RUN \
   mkdir -p /opt/wine-stable/share/wine/gecko && \
-  wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86.msi && \
-  wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86_64.msi
+  wget http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi -O /opt/wine-stable/share/wine/gecko/wine-gecko-2.47.1-x86.msi && \
+  wget http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine-gecko-2.47.1-x86_64.msi
 
 # install fonts and enable font smoothing
 RUN \
