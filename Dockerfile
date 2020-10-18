@@ -121,6 +121,10 @@ USER root
 # # WINE SEETINGS & CONFIG
 # ###############################################################################
 
+# update winetricks to latest version
+RUN \
+  wget http://winetricks.org/winetricks -O /usr/bin/winetricks 
+
 # if mono and gecko gets not detected automatically and wine prompts to install them,
 # you have to use the correct versions which correspond to the currently
 # installed wine version
