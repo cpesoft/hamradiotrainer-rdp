@@ -52,6 +52,11 @@ RUN \
 RUN \
     echo "deb https://dl.winehq.org/wine-builds/ubuntu $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/winehq.list && \
     wget --quiet -O - "https://dl.winehq.org/wine-builds/winehq.key"  | apt-key add -
+# Add ppa for backported libfaudio0 (because Ubuntu 18.04  does not have Faudio support)
+# see: https://forum.winehq.org/viewtopic.php?t=32061
+    echo "deb http://ppa.launchpad.net/cybermax-dexter/sdl2-backport/ubuntu $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/cybermax-dexter.list && \
+    wget --quiet -O - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0795a9a788a59c82"  | env APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - 
+
 # Enable i386 architecture for wine install
 RUN \
     dpkg --add-architecture i386
