@@ -48,10 +48,16 @@ RUN \
   wget \
   apt-utils
 
-# Add wine ppa
+
 RUN \
+# Add ppa for wine 
     echo "deb https://dl.winehq.org/wine-builds/ubuntu $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/winehq.list && \
-    wget --quiet -O - "https://dl.winehq.org/wine-builds/winehq.key"  | apt-key add -
+    wget --quiet -O - "https://dl.winehq.org/wine-builds/winehq.key"  | env APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - && \
+# Add ppa for backported libfaudio0 (because Ubuntu 18.04  does not have Faudio support)
+# see: https://forum.winehq.org/viewtopic.php?t=32061
+    echo "deb http://ppa.launchpad.net/cybermax-dexter/sdl2-backport/ubuntu $(lsb_release -c -s) main" | tee /etc/apt/sources.list.d/cybermax-dexter.list && \
+    wget --quiet -O - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0795a9a788a59c82"  | env APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add - 
+
 # Enable i386 architecture for wine install
 RUN \
     dpkg --add-architecture i386
@@ -115,6 +121,10 @@ USER root
 # # WINE SEETINGS & CONFIG
 # ###############################################################################
 
+# update winetricks to latest version
+RUN \
+  wget http://winetricks.org/winetricks -O /usr/bin/winetricks 
+
 # if mono and gecko gets not detected automatically and wine prompts to install them,
 # you have to use the correct versions which correspond to the currently
 # installed wine version
@@ -123,11 +133,11 @@ USER root
 # and watch the logs
 RUN \
   mkdir -p /opt/wine-stable/share/wine/mono && \
-  wget http://dl.winehq.org/wine/wine-mono/4.7.5/wine-mono-4.7.5.msi -O /opt/wine-stable/share/wine/mono/wine-mono-4.7.5.msi
+  wget http://dl.winehq.org/wine/wine-mono/4.9.4/wine-mono-4.9.4.msi -O /opt/wine-stable/share/wine/mono/wine-mono-4.9.4.msi
 RUN \
   mkdir -p /opt/wine-stable/share/wine/gecko && \
-  wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86.msi && \
-  wget http://dl.winehq.org/wine/wine-gecko/2.47/wine_gecko-2.47-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine_gecko-2.47-x86_64.msi
+  wget http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86.msi -O /opt/wine-stable/share/wine/gecko/wine-gecko-2.47.1-x86.msi && \
+  wget http://dl.winehq.org/wine/wine-gecko/2.47.1/wine-gecko-2.47.1-x86_64.msi -O /opt/wine-stable/share/wine/gecko/wine-gecko-2.47.1-x86_64.msi
 
 # install fonts and enable font smoothing
 RUN \
