@@ -104,6 +104,7 @@ RUN \
     mkdir -p ~/.config/openbox && \
     mkdir -p ~/.config/tint2 && \
     mkdir -p ~/.local/share/applications && \
+    mkdir -p ~/HamRadioTrainer && \
     echo 'openbox-session' > ~/.xsession'
 
 USER user
@@ -111,6 +112,8 @@ COPY \
   build/tint2rc /home/user/.config/tint2/tint2rc
 COPY \
   build/autostart /home/user/.config/openbox/autostart
+COPY \
+  build/hamradiotrainer.sh /home/user/HamRadioTrainer/hamradiotrainer.sh
 COPY \
   build/hamradiotrainer.desktop /home/user/.local/share/applications/hamradiotrainer.desktop
 
@@ -155,7 +158,8 @@ WORKDIR /tmp
 RUN \
   wget http://www.hamradiotrainer.de/download/HamRadioTrainer-Portable-4.0.zip && \
   7z x /tmp/HamRadioTrainer-Portable-4.0.zip -o/home/user/HamRadioTrainer && \
-  chown -R user:user /home/user/HamRadioTrainer
+  chown -R user:user /home/user/HamRadioTrainer && \
+  chmod a+x /home/user/HamRadioTrainer/hamradiotrainer.sh
 
 # ###############################################################################
 # # MISC SETTINGS
